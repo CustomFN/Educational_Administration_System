@@ -7,9 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.system.mapper.CourseMapper;
 import com.system.mapper.TeacherMapper;
-import com.system.po.Course;
 import com.system.po.ShowPage;
 import com.system.po.Teacher;
 import com.system.po.TeacherCustom;
@@ -20,8 +18,6 @@ public class TeacherServiceImpl implements ITeacherService {
 
 	@Autowired
 	private TeacherMapper teacherMapper;
-	@Autowired
-	private CourseMapper courseMapper;
 	
 	@Override
 	public ShowPage<TeacherCustom> findTeacherList(int pageNum) {

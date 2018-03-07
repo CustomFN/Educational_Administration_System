@@ -17,6 +17,7 @@ public class LoginController {
 	@Autowired
 	private ILoginService iLoginService;
 	
+	//登录权限认证处理
 	@RequestMapping(value="/login",method= {RequestMethod.POST})
 	public String login(String userid,String password,HttpServletRequest request,Model model) {
 		User user = iLoginService.login(userid, password);
@@ -35,6 +36,7 @@ public class LoginController {
 		}
 	}
 	
+	//退出系统
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request) {
 		request.getSession().removeAttribute("user");

@@ -2,7 +2,6 @@ package com.system.service;
 
 import java.util.List;
 
-import com.system.po.Course;
 import com.system.po.ShowPage;
 import com.system.po.Teacher;
 import com.system.po.TeacherCustom;

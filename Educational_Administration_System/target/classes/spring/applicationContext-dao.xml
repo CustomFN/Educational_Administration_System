@@ -8,8 +8,10 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
+	<!-- 加载数据库配置文件 -->
 	<context:property-placeholder location="classpath:db.properties"/>
 	
+	<!-- 配置数据源 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		destroy-method="close">
 		<property name="url" value="${jdbc.url}" />
@@ -20,11 +22,17 @@
 		<property name="minIdle" value="5" />
 	</bean>
 	
+	<!-- 配置 sqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="configLocation" value="classpath:mybatis/mybatis.cfg.xml"/>
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
 	
+	<!--Mapper批量扫描，从Mapper包扫描接口，自动创建代理对象，并在Spring容器中自动注册
+	    使用 Mybatis与Spring整合包的这个 Mapper 扫描器后， Mybatis 配置文件里的扫描器，就可以取消掉了
+	    遵循的规范 不变
+	    自动扫描出来的Mapper的bean的id为Mapper类名（首字母小写）
+    -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.system.mapper"/>
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>

@@ -24,6 +24,12 @@ import com.system.service.ICourseService;
 import com.system.service.IStudentService;
 import com.system.service.ITeacherService;
 
+
+/**
+ * 管理员功能操作
+ * @author zincpool
+ *
+ */
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -37,6 +43,10 @@ public class AdminController {
 	@Autowired
 	private ICourseService iCourseService;
 	
+	
+	/* ******************************学生操作************************* */
+
+    //  学生信息显示
 	@RequestMapping("/showStudent")
 	public String showStudent(@RequestParam(defaultValue="1",name="page") Integer pageNum,
 			Model model,HttpServletRequest request) {
@@ -46,6 +56,7 @@ public class AdminController {
 		return "admin/showStudent";
 	}
 	
+	//搜索学生
 	@RequestMapping("/selectStudent")
 	public String findStudentByName(@RequestParam(defaultValue="1",name="page") Integer pageNum,@RequestParam(name="findByName",required=false)String findByName,
 			Model model,HttpServletRequest request) {
@@ -61,6 +72,7 @@ public class AdminController {
 		return "admin/showStudent";
 	}
 	
+	//跳转添加学生页面
 	@RequestMapping(value = "/addStudent",method = RequestMethod.GET)
 	public String showAddStudentUI(Model model) {
 		List<College> list = iCollegeService.findAll();
@@ -68,6 +80,7 @@ public class AdminController {
 		return "admin/addStudent";
 	}
 	
+	//添加学生操作
 	@RequestMapping(value = "/addStudent",method = RequestMethod.POST)
 	public String addStudent(Student student,Model model) {
 		Boolean isSuccess = iStudentService.saveStudent(student);
@@ -78,6 +91,7 @@ public class AdminController {
 		return "redirect:/admin/showStudent";
 	}
 	
+	//删除学生操作
 	@RequestMapping("/removeStudent")
 	public String deleteStudentById(@RequestParam(name="id")String id) {
 		if(id == null || "".equals(id)) {
@@ -87,6 +101,7 @@ public class AdminController {
 		return "redirect:/admin/showStudent";
 	}
 	
+	//跳转修改学生页面
 	@RequestMapping(value = "/editStudent",method = RequestMethod.GET)
 	public String showEditStudentUI(@RequestParam(name="id")String id,Model model) {
 		if(id == null || "".equals(id)) {
@@ -99,6 +114,7 @@ public class AdminController {
 		return "admin/editStudent";
 	}
 	
+	//修改学生操作
 	@RequestMapping(value = "/editStudent",method = RequestMethod.POST)
 	public String editStudent(StudentCustom studentCustom) {
 		iStudentService.updateStudentById(studentCustom);
@@ -106,8 +122,9 @@ public class AdminController {
 	}
 	
 	
-	/************************* 教师管理 ******************************************/
+	/* ************************ 教师管理 **************************************** */
 
+	// 教师信息显示
 	@RequestMapping("/showTeacher")
 	public String showTeacher(@RequestParam(defaultValue="1",name="page") Integer pageNum,
 			Model model,HttpServletRequest request) {
@@ -117,6 +134,7 @@ public class AdminController {
 		return "admin/showTeacher";
 	}
 	
+	//搜索教师
 	@RequestMapping("/selectTeacher")
 	public String findTeacherByName(@RequestParam(defaultValue="1",name="page") Integer pageNum,@RequestParam(name="findByName",required=false)String findByName,
 			Model model,HttpServletRequest request) {
@@ -132,6 +150,7 @@ public class AdminController {
 		return "admin/showTeacher";
 	}
 	
+	//跳转添加教师页面
 	@RequestMapping(value = "addTeacher",method = RequestMethod.GET)
 	public String showAddTeacherUI(Model model) {
 		List<College> list = iCollegeService.findAll();
@@ -139,6 +158,7 @@ public class AdminController {
 		return "admin/addTeacher";
 	}
 	
+	//添加教师操作
 	@RequestMapping(value = "/addTeacher",method = RequestMethod.POST)
 	public String addTeacher(Teacher teacher,Model model) {
 		Boolean isSuccess = iTeacherService.saveTeacher(teacher);
@@ -149,6 +169,7 @@ public class AdminController {
 		return "redirect:/admin/showTeacher";
 	}
 	
+	//删除教师
 	@RequestMapping("/removeTeacher")
 	public String deleteTeacherById(@RequestParam(name="id")String id) {
 		if(id == null || "".equals(id)) {
@@ -158,6 +179,7 @@ public class AdminController {
 		return "redirect:/admin/showTeacher";
 	}
 	
+	//跳转修改教师信息页面
 	@RequestMapping(value = "/editTeacher",method = RequestMethod.GET)
 	public String showEditTeacherUI(@RequestParam(name="id")String id,Model model) {
 		if(id == null || "".equals(id)) {
@@ -170,14 +192,16 @@ public class AdminController {
 		return "admin/editTeacher";
 	}
 	
+	//修改教师信息操作
 	@RequestMapping(value = "/editTeacher",method = RequestMethod.POST)
 	public String editTeacher(TeacherCustom teacherCustom) {
 		iTeacherService.updateTeacherById(teacherCustom);
 		return "redirect:/admin/showTeacher";
 	}
 	
-	/*********************** 课程管理 ********************************/
+	/* ********************** 课程管理 ******************************* */
 	
+	// 课程信息显示
 	@RequestMapping("showCourse")
 	public String showCourse(@RequestParam(defaultValue="1",name="page") Integer pageNum,
 			Model model,HttpServletRequest request) {
@@ -187,7 +211,7 @@ public class AdminController {
 		return "admin/showCourse";
 	}
 	
-	
+	//搜索课程
 	@RequestMapping(value = {"/selectCourse"})
 	public String findCourseByName(@RequestParam(defaultValue="1",name="page") Integer pageNum,@RequestParam(name="findByName",required=false)String findByName,
 			Model model,HttpServletRequest request) {
@@ -203,6 +227,7 @@ public class AdminController {
 		return "admin/showCourse";
 	}
 	
+	//跳转添加课程信息页面
 	@RequestMapping(value = "addCourse",method = RequestMethod.GET)
 	public String showAddCourseUI(Model model) {
 		List<Teacher> teacher = iTeacherService.findTeacherId();
@@ -212,6 +237,7 @@ public class AdminController {
 		return "admin/addCourse";
 	}
 	
+	//添加课程信息操作
 	@RequestMapping(value = "/addCourse",method = RequestMethod.POST)
 	public String addCourse(Course course,Model model) {
 		Boolean isSuccess = iCourseService.saveCourse(course);
@@ -222,6 +248,7 @@ public class AdminController {
 		return "redirect:/admin/showCourse";
 	}
 	
+	//删除课程信息
 	@RequestMapping("/removeCourse")
 	public String deleteCourseById(@RequestParam(name="id")Integer id) {
 		if(id == null) {
@@ -231,6 +258,7 @@ public class AdminController {
 		return "redirect:/admin/showCourse";
 	}
 	
+	//跳转修改课程信息页面
 	@RequestMapping(value = "/editCourse",method = RequestMethod.GET)
 	public String showEditCourseUI(@RequestParam(name="id")Integer id,Model model) {
 		if(id == null) {
@@ -245,19 +273,22 @@ public class AdminController {
 		return "admin/editCourse";
 	}
 	
+	//修改课程信息操作
 	@RequestMapping(value = "/editCourse",method = RequestMethod.POST)
 	public String editCourse(Course course) {
 		iCourseService.updateCourseById(course);
 		return "redirect:/admin/showCourse";
 	}
 	
-	/******************** 其他操作 *********************************/
+	/* ******************* 其他操作 ******************************** */
 	
+	//跳转重置账号密码页面
 	@RequestMapping(value = "/userPasswordRest", method = RequestMethod.GET)
 	public String showUserPasswordRestUI() {
 		return "admin/userPasswordRest";
 	}
 	
+	//重置账号密码操作
 	@RequestMapping(value = "/userPasswordRest", method = RequestMethod.POST)
 	public String userPasswordRest(String userid,String password,Model model) {
 		if("admin".equals(userid)) {
@@ -278,11 +309,13 @@ public class AdminController {
 		return "admin/userPasswordRest";
 	}
 	
+	//跳转修改管理员密码页面
 	@RequestMapping(value = "/passwordRest", method = RequestMethod.GET)
 	public String showPasswordRestUI() {
 		return "admin/passwordRest";
 	}
 	
+	//修改管理员密码操作
 	@RequestMapping(value = "/passwordRest", method = RequestMethod.POST)
 	public String passwordRest(String oldPassword,@RequestParam(name="password1")String password) {
 		return "login";

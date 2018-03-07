@@ -20,6 +20,11 @@ import com.system.service.ICourseService;
 import com.system.service.ISelectCourseService;
 import com.system.service.IStudentService;
 
+/**
+ * 学生功能操作
+ * @author zincpool
+ *
+ */
 @Controller
 @RequestMapping("/student")
 public class StudentController {
@@ -32,6 +37,7 @@ public class StudentController {
 	private IStudentService iStudentService;
 	
 	
+	//学生课程信息显示
 	@RequestMapping("/showCourse")
 	public String showCourseUI(@RequestParam(defaultValue="1",name="page") Integer pageNum,
 			Model model,HttpServletRequest request) {
@@ -44,6 +50,7 @@ public class StudentController {
 		return "student/showCourse";
 	}
 	
+	//学生课程信息查询
 	@RequestMapping(value = {"/selectCourse"})
 	public String findCourseByName(@RequestParam(defaultValue="1",name="page") Integer pageNum,@RequestParam(name="findByName",required=false)String findByName,
 			Model model,HttpServletRequest request) {
@@ -59,6 +66,7 @@ public class StudentController {
 		return "student/showCourse";
 	}
 	
+	//学生选课在修显示
 	@RequestMapping("/selectedCourse")
 	public String showSelectedCourseList(@RequestParam(defaultValue="1",name="page") Integer pageNum,
 			Model model,HttpServletRequest request) {
@@ -68,6 +76,7 @@ public class StudentController {
 		return "student/selectCourse";
 	}
 	
+	//学生选课已修显示
 	@RequestMapping("/overCourse")
 	public String showOverCourseList(@RequestParam(defaultValue="1",name="page") Integer pageNum,
 			Model model,HttpServletRequest request) {
@@ -77,11 +86,13 @@ public class StudentController {
 		return "student/overCourse";
 	}
 	
+	//跳转学生密码修改页面
 	@RequestMapping(value = "/passwordRest", method = RequestMethod.GET)
 	public String showPasswordRestUI() {
 		return "student/passwordRest";
 	}
 	
+	//学生密码修改操作
 	@RequestMapping(value = "/passwordRest", method = RequestMethod.POST)
 	public String doPasswordRest(@RequestParam("oldPassword")String oldPassword,@RequestParam("password1")String newPassword,
 			HttpServletRequest request,Model model) {
@@ -92,9 +103,10 @@ public class StudentController {
 		}
 		iStudentService.updateStudentPassword(user.getUserId(), newPassword);
 		model.addAttribute("success", "修改成功");
-		return "login";
+		return "redirect:/logout";
 	}
 	
+	//学生选课操作
 	@RequestMapping("/stuSelectedCourse")
 	public String doSelectCourse(@RequestParam("id")Integer courseid,HttpServletRequest request,Model model) {
 		if(courseid == null) {
@@ -106,6 +118,7 @@ public class StudentController {
 		return "redirect:/student/showCourse";
 	}
 	
+	//学生退课操作
 	@RequestMapping("/outCourse")
 	public String doOutCourse(@RequestParam("id")Integer courseid,HttpServletRequest request,Model model) {
 		if(courseid == null) {
